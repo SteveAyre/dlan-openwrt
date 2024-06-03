@@ -86,6 +86,20 @@ define Package/$(PKG_NAME)-pro-1200-n
   DEPENDS+=+open-plc-utils-$$(FW_HOSTTOOL)
 endef
 
+define Download/$(PKG_NAME)-pro-1200-ac
+	FILE:=$(PKG_NAME)-pro-1200-ac.bin
+	URL_FILE:=delos_dlan-1200-ac_6.0.1_2023-09-06.bin
+	URL:=https://www.devolo.co.uk/fileadmin/Web-Content/DE/products/hnw/dlan-1200-plus-wifi-ac-powerline/firmware/$(URL_FILE)
+	HASH:=6ecd02c75f73fb51b5463cb5c03d72df91bdf2b626cb9670907162bc97f152a9
+endef
+
+define Build/Prepare
+	$(Build/Prepare/Default)
+	$(eval $(call Download,$(PKG_NAME)-pro-1200-ac))
+	7z x $(DL_DIR)/$(PKG_NAME)-pro-1200-ac.bin -r '*.nvm' '*.pib'
+	cp -v lib/firmware/plc/dlan-pro-1200-ac/*.{nvm,pib} qca/dlan-pro-1200-ac
+endef
+
 define InstallFirmware
 	$(INSTALL_DIR) $(1)/lib/firmware/plc/$(FW_TARGET)
 ifneq ($(FW_SOURCE),)
@@ -105,10 +119,10 @@ endif
 	echo "PLCFW_SCHEMES=\$$$$PLCFW_PATH/$(FW_TARGET)" >>$(1)/lib/firmware/plc/$(FW_TARGET)/fwconfig
 endef
 
-Package/$(PKG_NAME)-hotspot/install = $(InstallFirmware)
-Package/$(PKG_NAME)-pro-500-wp/install = $(InstallFirmware)
+#Package/$(PKG_NAME)-hotspot/install = $(InstallFirmware)
+#Package/$(PKG_NAME)-pro-500-wp/install = $(InstallFirmware)
 Package/$(PKG_NAME)-pro-1200-ac/install = $(InstallFirmware)
-Package/$(PKG_NAME)-pro-1200-n/install = $(InstallFirmware)
+#Package/$(PKG_NAME)-pro-1200-n/install = $(InstallFirmware)
 
 define Build/Compile
 endef
@@ -117,7 +131,7 @@ define Build/Install
 endef
 
 $(eval $(call BuildPackage,dlan-plc))
-$(eval $(call BuildPackage,$(PKG_NAME)-hotspot))
-$(eval $(call BuildPackage,$(PKG_NAME)-pro-500-wp))
+#$(eval $(call BuildPackage,$(PKG_NAME)-hotspot))
+#$(eval $(call BuildPackage,$(PKG_NAME)-pro-500-wp))
 $(eval $(call BuildPackage,$(PKG_NAME)-pro-1200-ac))
-$(eval $(call BuildPackage,$(PKG_NAME)-pro-1200-n))
+#$(eval $(call BuildPackage,$(PKG_NAME)-pro-1200-n))
