@@ -3,7 +3,11 @@
 This is the devolo dLAN package feed for OpenWrt.
 It contains the firmware and tools for the Powerline (PLC) interface of devolo dLAN pro devices.
 
-NOTE: Due to legal reasons we are not allowed to distribute PLC firmware and pib files.
+## PLC firmware and pib files
+
+PLC firmware and pib files are fetched and extracted from the official firmware during the build.
+
+The resulting packages are for personal use only and should not be redistributed.
 
 ## Usage
 
